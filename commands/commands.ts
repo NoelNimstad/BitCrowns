@@ -6,7 +6,8 @@ const embed = new EmbedBuilder()
     .setColor("White")
     .setFooter({ text: "Noel Nimstad", iconURL: "https://imgur.com/T2rAokx.png" })
     .addFields( { name: "// help", value: "Displays the current conversion rate and a bot description" },
-                { name: "// wallet", value: "Displays your current wallet" }, 
+                { name: "// wallet", value: "Displays your current wallet" },
+                { name: "// stake", value: "Creates a new stake pot" }, 
                 { name: "// commands", value: "Displays all BitCrowns commands" });
 
 function Commands(client: Client, message: Message, args: Array<string>)

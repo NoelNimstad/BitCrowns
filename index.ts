@@ -3,9 +3,10 @@ import Command from "./commands/command";
 
 // Commands
 import HelpCommand from "./commands/help";
+import Stakecommand from "./commands/stake";
 import WalletCommand from "./commands/wallet";
 import CommandsCommand from "./commands/commands";
-let commands: Array<Command> = [ HelpCommand, CommandsCommand, WalletCommand ];
+let commands: Array<Command> = [ HelpCommand, CommandsCommand, WalletCommand, Stakecommand ];
 
 // Client
 const client: Client = new Client({ intents: [  GatewayIntentBits.Guilds, 
@@ -23,7 +24,7 @@ function HandleCommand(message: Message)
     const command: Command | undefined = commands.find(elem => elem.name == args[0]);
     if(command)
     {
-        command.func(client, message, args);
+        command.func(client, message, args, content);
     } else 
     {
         message.channel.send("command not found!");
