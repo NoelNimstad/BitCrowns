@@ -3,6 +3,7 @@ import { Client, EmbedBuilder, Message } from "discord.js";
 
 const embed = new EmbedBuilder()
     .setTitle("BitCrowns")
+    .setURL("https://github.com/NoelNimstad/BitCrowns")
     .setColor("White")
     .setFooter({ text: "Noel Nimstad", iconURL: "https://imgur.com/T2rAokx.png" })
     .addFields( { name: "About", value: "BitCrowns is an honorary currency system hosted and run by Noel Nimstad.\nRun `// commands` to see a list of commands" }, 
