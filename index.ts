@@ -16,7 +16,7 @@ const client: Client = new Client({ intents: [  GatewayIntentBits.Guilds,
 // Command Handler
 function HandleCommand(message: Message)
 {
-    const content: string = (message.content.split("jar")[1]).replace(" ", "");
+    const content: string = (message.content.toLowerCase().split("jar")[1]).replace(" ", "");
     const args: Array<string> = content.split(" ");
 
     if(!args[0])
@@ -28,7 +28,10 @@ function HandleCommand(message: Message)
     } else if (args[0] == "-")
     {
         return Subtract(message, args);
-    } else 
+    } else if(args[0] == "sum")
+    {
+        return Sum(message, args);
+    } else
     {
         return message.channel.send(`invalid command: ${ args[0] }`);
     }
@@ -142,6 +145,25 @@ async function Subtract(message: Message, args: Array<string>)
     message.channel.send({ embeds: [ SubtractEmbed ] });
 };
 
+// Sum
+async function Sum(message: Message, args: Array<string>)
+{
+    let users = await User.find();
+    let sum: number = 0;
+
+    for(let i: number = 0; i < users.length; i++)
+    {
+        sum += users[i].score || 0;
+    }
+
+    const SumEmbed = new EmbedBuilder()
+        .setColor("#58eb50")
+        .setDescription(`${ sum }kr gathered`)
+        .setTimestamp();
+
+    message.channel.send({ embeds: [ SumEmbed ] });
+};
+
 // Events
 client.once(Events.ClientReady, () => 
 {
@@ -150,7 +172,7 @@ client.once(Events.ClientReady, () =>
 
 client.on(Events.MessageCreate, message => 
 {
-    if(message.content.startsWith("jar")) HandleCommand(message);
+    if(message.content.toLowerCase().startsWith("jar")) HandleCommand(message);
 });
 
 // Login
