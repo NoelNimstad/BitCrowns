@@ -1,4 +1,8 @@
 import { ActivityType, Client, Events, GatewayIntentBits, Message, Partials } from "discord.js";
+import * as mongoose from "mongoose";
+
+// MongoDB Setup
+mongoose.connect(`mongodb+srv://${ process.env.DBu }:${ process.env.DBp }@jar.soxupba.mongodb.net/?retryWrites=true&w=majority`);
 
 // Client
 const client: Client = new Client({ intents: [  GatewayIntentBits.Guilds, 
@@ -79,3 +83,11 @@ client.on(Events.MessageCreate, message =>
 
 // Login
 client.login(process.env.TOKEN);
+
+// Cleanup
+async function exitHandler()
+{
+    await mongoose.disconnect();
+    process.exit();
+}
+process.on('SIGINT', () => exitHandler());
