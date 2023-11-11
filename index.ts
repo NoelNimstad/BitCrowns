@@ -1,12 +1,4 @@
-import { Client, Events, GatewayIntentBits, Message, Partials } from "discord.js";
-import Command from "./commands/command";
-
-// Commands
-import HelpCommand from "./commands/help";
-import Stakecommand from "./commands/stake";
-import WalletCommand from "./commands/wallet";
-import CommandsCommand from "./commands/commands";
-let commands: Array<Command> = [ HelpCommand, CommandsCommand, WalletCommand, Stakecommand ];
+import { ActivityType, Client, Events, GatewayIntentBits, Message, Partials } from "discord.js";
 
 // Client
 const client: Client = new Client({ intents: [  GatewayIntentBits.Guilds, 
@@ -18,28 +10,71 @@ const client: Client = new Client({ intents: [  GatewayIntentBits.Guilds,
 // Command Handler
 function HandleCommand(message: Message)
 {
-    const content: string = message.content.split("// ")[1];
+    const content: string = (message.content.split("jar")[1]).replace(" ", "");
     const args: Array<string> = content.split(" ");
 
-    const command: Command | undefined = commands.find(elem => elem.name == args[0]);
-    if(command)
+    if(!args[0])
     {
-        command.func(client, message, args, content);
+        return Leaderboard(message, args);
+    } else if (args[0] == "+")
+    {
+        return Add(message, args);
+    } else if (args[0] == "-")
+    {
+        return Subtract(message, args);
     } else 
     {
-        message.channel.send("command not found!");
+        return message.channel.send(`invalid command: ${ args[0] }`);
     }
-}
+};
+
+// Leaderboard
+async function Leaderboard(message: Message, args: Array<string>)
+{
+    message.channel.send("1. A\n2. B");
+};
+
+// Add
+async function Add(message: Message, args: Array<string>)
+{    
+    let id: string;
+    if(args.length == 1) // extract user id
+    {
+        id = message.author.id;
+    } else if(args.length == 2 && message.mentions.users.size == 1)
+    {
+        id = message.mentions.users.at(0)?.id || "";
+    } else
+    {
+        message.channel.send(`invalid command arguments: ${ args }`);
+    }
+};
+
+// Subtract
+async function Subtract(message: Message, args: Array<string>)
+{
+    let id: string;
+    if(args.length == 1) // extract user id
+    {
+        id = message.author.id;
+    } else if(args.length == 2 && message.mentions.users.size == 1)
+    {
+        id = message.mentions.users.at(0)?.id || "";
+    } else
+    {
+        message.channel.send(`invalid command arguments: ${ args }`);
+    }
+};
 
 // Events
 client.once(Events.ClientReady, () => 
 {
-    console.log("brewing");
+    console.log("preventing swearing since 2023");
 });
 
 client.on(Events.MessageCreate, message => 
 {
-    if(message.content.startsWith("// ")) HandleCommand(message);
+    if(message.content.startsWith("jar")) HandleCommand(message);
 });
 
 // Login
