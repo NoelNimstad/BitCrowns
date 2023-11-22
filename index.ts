@@ -22,18 +22,21 @@ function HandleCommand(message: Message)
     if(!args[0])
     {
         return Leaderboard(message, args);
-    } else if (args[0] == "+")
+    } 
+    
+    switch(args[0])
     {
-        return Add(message, args);
-    } else if (args[0] == "-")
-    {
-        return Subtract(message, args);
-    } else if(args[0] == "sum")
-    {
-        return Sum(message, args);
-    } else
-    {
-        return message.channel.send(`invalid command: ${ args[0] }`);
+        case "+":
+            Add(message, args);
+            break;
+        case "-":
+            Subtract(message, args);
+            break;
+        case "sum":
+            Sum(message, args);
+        default:
+            message.channel.send(`invalid command: ${ args[0] }`);
+            break;
     }
 };
 
