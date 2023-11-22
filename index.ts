@@ -313,7 +313,7 @@ async function Free(message: Message, args: Array<string>)
     const AddEmbed = new EmbedBuilder()
         .setColor("#43eb34")
         .setTimestamp()
-        .setDescription(`removed ${ ammount }kr of debt to <@${ id }>\ntotal: ${ target.debt }kr of debt`);
+        .setDescription(`removed ${ ammount }kr of debt from <@${ id }>\ntotal: ${ target.debt }kr of debt`);
     message.channel.send({ embeds: [ AddEmbed ] });
 };
 
